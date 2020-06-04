@@ -18,10 +18,8 @@ def main():
         response = stub.Recognize(build_recognition_request(args, reader), metadata=metadata)
         total = ''
         if not isinstance(response, dict):
-        # https://developers.google.com/protocol-buffers/docs/proto3#json
-        response = MessageToDict(response,
-                                 including_default_value_fields=True,
-                                 preserving_proto_field_name=True)
+            # https://developers.google.com/protocol-buffers/docs/proto3#json
+            response = MessageToDict(response, including_default_value_fields=True, preserving_proto_field_name=True)
         for result in response["results"]:
             for alternative in result["alternatives"]:
                 total = total + alternative["transcript"]
