@@ -10,6 +10,7 @@ from tinkoff.cloud.stt.v1 import stt_pb2
 
 def main():
     args = BaseRecognitionParser().parse_args()
+    total = ''
     if args.encoding == stt_pb2.RAW_OPUS:
         raise ValueError("RAW_OPUS encoding is not supported by this script")
     with audio_open_read(args.audio_file, args.encoding, args.rate, args.num_channels, args.chunk_size,
@@ -17,14 +18,14 @@ def main():
         stub = stt_pb2_grpc.SpeechToTextStub(make_channel(args))
         metadata = authorization_metadata(args.api_key, args.secret_key, "tinkoff.cloud.stt")
         response = stub.Recognize(build_recognition_request(args, reader), metadata=metadata)
-        total = ''
+        
         if not isinstance(response, dict):
             # https://developers.google.com/protocol-buffers/docs/proto3#json
             response = MessageToDict(response, including_default_value_fields=True, preserving_proto_field_name=True)
         for result in response["results"]:
             for alternative in result["alternatives"]:
                 total = total + alternative["transcript"]
-        print(total)
+    print(total)
 
 
 if __name__ == "__main__":
