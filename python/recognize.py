@@ -24,6 +24,7 @@ def main():
         for result in response["results"]:
             for alternative in result["alternatives"]:
                 total = total + alternative["transcript"]
+        print(total)
 
 
 if __name__ == "__main__":
