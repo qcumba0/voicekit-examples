@@ -3,6 +3,7 @@ from tinkoff.cloud.stt.v1 import stt_pb2_grpc
 from auth import authorization_metadata
 from audio import audio_open_read
 from common import build_recognition_request, make_channel, print_recognition_response, BaseRecognitionParser
+from google.protobuf.json_format import MessageToDict
 
 from tinkoff.cloud.stt.v1 import stt_pb2
 
