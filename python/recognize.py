@@ -16,7 +16,10 @@ def main():
         stub = stt_pb2_grpc.SpeechToTextStub(make_channel(args))
         metadata = authorization_metadata(args.api_key, args.secret_key, "tinkoff.cloud.stt")
         response = stub.Recognize(build_recognition_request(args, reader), metadata=metadata)
-        print_recognition_response(response)
+        total = ''
+        for result in response["results"]:
+            for alternative in result["alternatives"]:
+                total = total + alternative["transcript"]
 
 
 if __name__ == "__main__":
